@@ -38,14 +38,14 @@ export default function App() {
       <br />
       <CountryContext.Provider value={countryState}>
         <React.SuspenseList revealOrder="forwards" tail="collapsed">
-          <React.Suspense fallback={<div>Fetching Country stats...</div>}>
-            <ErrorBoundary fallback="Couldn't catch 'em all.">
+          <React.Suspense fallback={<div>Loading Country Stats...</div>}>
+            <ErrorBoundary fallback="Loading failed.">
               <CountryDetail />
             </ErrorBoundary>
           </React.Suspense>
 
-          <React.Suspense fallback={<div>Connecting to database...</div>}>
-            <ErrorBoundary fallback="Couldn't catch 'em all.">
+          <React.Suspense fallback={<div>Loading Countries...</div>}>
+            <ErrorBoundary fallback="Couldn't load country list.">
               <div>{isPending && <DelaySpinner />}</div>
               <br />
               <br />
