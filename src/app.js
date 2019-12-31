@@ -34,6 +34,10 @@ export default function App() {
       startTransition(() => setPokemonResource(suspensify(fetchPokemon(id))))
   };
 
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   return (
     <div className="container">
       <br />
@@ -94,7 +98,9 @@ export default function App() {
                         </button> */}
                         <h3>{country.name}</h3>
                         <p>Capital City: {country.capital}</p>
-                        <p>Population: {country.population}</p>
+                        <p>
+                          Population: {numberWithCommas(country.population)}
+                        </p>
                       </li>
                     )}
                   />
@@ -109,5 +115,12 @@ export default function App() {
 }
 
 function PokemonCollection({ resource, ...props }) {
-  return <List items={resource.read().results} {...props} />;
+  return (
+    <List
+      items={resource
+        .read()
+        .results.sort((a, b) => (a.population < b.population ? 1 : -1))}
+      {...props}
+    />
+  );
 }
