@@ -1,6 +1,12 @@
 import React from "react";
 import ErrorBoundary from "./error-boundary";
-import { fetchPokemon, fetchPokemonCollection, suspensify } from "./api";
+import {
+  fetchPokemon,
+  fetchPokemonCollection,
+  fetchPokemonCollectionUrl,
+  suspensify
+} from "./api";
+import { DelaySpinner } from "./ui";
 import { List } from "./ui";
 import { PokemonContext } from "./pokemon";
 
@@ -13,7 +19,7 @@ let initialCollection = suspensify(fetchPokemonCollection());
 
 export default function App() {
   let [pokemonResource, setPokemonResource] = React.useState(initialPokemon);
-  let [collectionResource] = React.useState(initialCollection);
+  let [collectionResource, setCollection] = React.useState(initialCollection);
   let [startTransition, isPending] = React.useTransition({ timeoutMs: 3000 });
   let deferredPokemonResource = React.useDeferredValue(pokemonResource, {
     timeoutMs: 3000
@@ -41,14 +47,14 @@ export default function App() {
 
           <React.Suspense fallback={<div>Connecting to database...</div>}>
             <ErrorBoundary fallback="Couldn't catch 'em all.">
-              {/* <div>
+              <div>
                 <button
                   type="button"
                   disabled={pokemonIsPending}
                   style={pokemonIsPending ? { opacity: 0.5 } : null}
                   onClick={() =>
                     startTransition(() =>
-                      setCollectionResource(
+                      setCollection(
                         suspensify(
                           fetchPokemonCollectionUrl(
                             collectionResource.read().next
@@ -58,11 +64,11 @@ export default function App() {
                     )
                   }
                 >
-                  Next
+                  See Next 20
                 </button>
 
                 {isPending && <DelaySpinner />}
-              </div> */}
+              </div>
               <br />
               <br />
               <PokemonContext.Consumer>
