@@ -77,9 +77,9 @@ export default function App() {
                     resource={collectionResource}
                     as="ul"
                     className="pokemon-list"
-                    renderItem={pokemon => (
-                      <li key={pokemon.name} className="pokemon-list-item">
-                        <button
+                    renderItem={country => (
+                      <li key={country.name} className="pokemon-list-item">
+                        {/* <button
                           className="pokemon-list-item-button"
                           type="button"
                           disabled={isPending}
@@ -91,7 +91,10 @@ export default function App() {
                             width="50"
                           />
                           <h3>{pokemon.name}</h3>
-                        </button>
+                        </button> */}
+                        <h3>{country.name}</h3>
+                        <p>Capital City: {country.capital}</p>
+                        <p>Population: {country.population}</p>
                       </li>
                     )}
                   />

@@ -29,8 +29,21 @@ export function fetchPokemon(id) {
     .then(sleep(500));
 }
 
-export function fetchPokemonCollection() {
-  return fetch(`https://pokeapi.co/api/v2/pokemon/`)
+// export function fetchPokemonCollection() {
+//   return fetch(`https://pokeapi.co/api/v2/pokemon/`)
+//     .then(res => res.json())
+//     .then(res => ({
+//       ...res,
+//       results: res.results.map(pokemon => ({
+//         ...pokemon,
+//         id: pokemon.url.split("/")[6]
+//       }))
+//     }))
+//     .then(sleep(1000));
+// }
+
+export function fetchPokemonCollectionUrl(url) {
+  return fetch(url)
     .then(res => res.json())
     .then(res => ({
       ...res,
@@ -42,14 +55,12 @@ export function fetchPokemonCollection() {
     .then(sleep(1000));
 }
 
-export function fetchPokemonCollectionUrl(url) {
-  return fetch(url)
+export function fetchPokemonCollection() {
+  return fetch(`https://restcountries.eu/rest/v2/all`)
     .then(res => res.json())
     .then(res => ({
-      ...res,
-      results: res.results.map(pokemon => ({
-        ...pokemon,
-        id: pokemon.url.split("/")[6]
+      results: res.map(country => ({
+        ...country
       }))
     }))
     .then(sleep(1000));
