@@ -23,8 +23,8 @@ export function suspensify(promise) {
   };
 }
 
-export function fetchPokemon(id) {
-  return fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+export function fetchGermany(name) {
+  return fetch(`https://restcountries.eu/rest/v2/name/${name}?fullText=true`)
     .then(res => res.json())
     .then(sleep(500));
 }
@@ -42,20 +42,7 @@ export function fetchPokemon(id) {
 //     .then(sleep(1000));
 // }
 
-export function fetchPokemonCollectionUrl(url) {
-  return fetch(url)
-    .then(res => res.json())
-    .then(res => ({
-      ...res,
-      results: res.results.map(pokemon => ({
-        ...pokemon,
-        id: pokemon.url.split("/")[6]
-      }))
-    }))
-    .then(sleep(1000));
-}
-
-export function fetchPokemonCollection() {
+export function fetchAllCountries() {
   return fetch(`https://restcountries.eu/rest/v2/all`)
     .then(res => res.json())
     .then(res => ({
