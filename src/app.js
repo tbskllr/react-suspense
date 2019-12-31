@@ -3,30 +3,30 @@ import ErrorBoundary from "./error-boundary";
 import { fetchGermany, fetchAllCountries, suspensify } from "./api";
 import { DelaySpinner } from "./ui";
 import { List } from "./ui";
-import { PokemonContext } from "./pokemon";
+import { CountryContext } from "./country";
 
 import "./styles.css";
 
-const PokemonDetail = React.lazy(() => import("./pokemon-detail"));
+const CountryDetail = React.lazy(() => import("./country-detail"));
 
-let initialPokemon = suspensify(fetchGermany("germany"));
+let initialCountry = suspensify(fetchGermany("germany"));
 let initialCollection = suspensify(fetchAllCountries());
 
 export default function App() {
-  let [pokemonResource, setPokemonResource] = React.useState(initialPokemon);
+  let [countryResource, setCountryResource] = React.useState(initialCountry);
   let [collectionResource] = React.useState(initialCollection);
   let [startTransition, isPending] = React.useTransition({ timeoutMs: 3000 });
-  let deferredPokemonResource = React.useDeferredValue(pokemonResource, {
+  let deferredCountryResource = React.useDeferredValue(countryResource, {
     timeoutMs: 3000
   });
 
-  let pokemonIsPending = deferredPokemonResource !== pokemonResource;
+  let countryIsPending = deferredCountryResource !== countryResource;
 
-  let pokemonState = {
-    pokemon: deferredPokemonResource,
-    isStale: pokemonIsPending,
-    setPokemon: id =>
-      startTransition(() => setPokemonResource(suspensify(fetchGermany(id))))
+  let countryState = {
+    country: deferredCountryResource,
+    isStale: countryIsPending,
+    setCountry: id =>
+      startTransition(() => setCountryResource(suspensify(fetchGermany(id))))
   };
 
   function numberWithCommas(x) {
@@ -36,11 +36,11 @@ export default function App() {
   return (
     <div className="container">
       <br />
-      <PokemonContext.Provider value={pokemonState}>
+      <CountryContext.Provider value={countryState}>
         <React.SuspenseList revealOrder="forwards" tail="collapsed">
-          <React.Suspense fallback={<div>Fetching Pokemon stats...</div>}>
+          <React.Suspense fallback={<div>Fetching Country stats...</div>}>
             <ErrorBoundary fallback="Couldn't catch 'em all.">
-              <PokemonDetail />
+              <CountryDetail />
             </ErrorBoundary>
           </React.Suspense>
 
@@ -49,20 +49,20 @@ export default function App() {
               <div>{isPending && <DelaySpinner />}</div>
               <br />
               <br />
-              <PokemonContext.Consumer>
-                {({ setPokemon }) => (
-                  <PokemonCollection
+              <CountryContext.Consumer>
+                {({ setCountry }) => (
+                  <CountryCollection
                     resource={collectionResource}
                     as="ul"
-                    className="pokemon-list"
+                    className="country-list"
                     renderItem={country => (
                       <button
-                        className="pokemon-list-item-button"
+                        className="country-list-item-button"
                         type="button"
                         disabled={isPending}
-                        onClick={() => setPokemon(country.name)}
+                        onClick={() => setCountry(country.name)}
                       >
-                        <li key={country.name} className="pokemon-list-item">
+                        <li key={country.name} className="country-list-item">
                           <h3>{country.name}</h3>
                           <p>Capital City: {country.capital}</p>
                           <p>
@@ -73,16 +73,16 @@ export default function App() {
                     )}
                   />
                 )}
-              </PokemonContext.Consumer>
+              </CountryContext.Consumer>
             </ErrorBoundary>
           </React.Suspense>
         </React.SuspenseList>
-      </PokemonContext.Provider>
+      </CountryContext.Provider>
     </div>
   );
 }
 
-function PokemonCollection({ resource, ...props }) {
+function CountryCollection({ resource, ...props }) {
   return (
     <List
       items={resource
