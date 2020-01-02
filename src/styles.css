@@ -94,14 +94,6 @@ article {
   appearance: none;
 }
 
-.country-list-item > img {
-  margin-right: 0.5rem;
-}
-
-.country-list-item:hover {
-  background: #fafafa;
-}
-
 /* ———————————— country DETAIL ———————————— */
 
 .button-back {
