@@ -22,6 +22,7 @@ export default function CountryDetail() {
           <div className="country-type-container">
             <h4>Capital City: {country[0].capital}</h4>
             <ul style={{ padding: 0 }}></ul>
+            <img alt={country.flag} src={country[0].flag} height="25px" />
           </div>
         </div>
       </section>
