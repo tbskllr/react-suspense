@@ -16,13 +16,13 @@ export default function CountryDetail() {
       <section className="detail-header">
         <div>
           <h2 className="country-title">
-            {country[0].name} {isStale && <DelaySpinner />}
+            {country[0].name} {isStale && <DelaySpinner />}{" "}
+            <img alt={country.flag} src={country[0].flag} height="30px" />
           </h2>
 
           <div className="country-type-container">
             <h4>Capital City: {country[0].capital}</h4>
             <ul style={{ padding: 0 }}></ul>
-            <img alt={country.flag} src={country[0].flag} height="25px" />
           </div>
         </div>
       </section>
